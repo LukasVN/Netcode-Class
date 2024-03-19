@@ -43,6 +43,7 @@ namespace HelloWorld
         {
             if (GUILayout.Button(NetworkManager.Singleton.IsServer ? "Move" : "Request Position Change"))
             {
+                Debug.Log("Move pressed");
                 if (NetworkManager.Singleton.IsServer && !NetworkManager.Singleton.IsClient )
                 {
                     foreach (ulong uid in NetworkManager.Singleton.ConnectedClientsIds)
