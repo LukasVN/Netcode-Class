@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ColorNetworkManager : MonoBehaviour
 {
+    public static NetworkVariable<int> PlayerCount = new NetworkVariable<int>(0);
     void OnGUI()
         {
             GUILayout.BeginArea(new Rect(10, 10, 300, 300));
@@ -22,8 +23,16 @@ public class ColorNetworkManager : MonoBehaviour
 
         static void StartButtons()
         {
-            if (GUILayout.Button("Host")) NetworkManager.Singleton.StartHost();
-            if (GUILayout.Button("Client")) NetworkManager.Singleton.StartClient();
+            if (GUILayout.Button("Host")) {
+                NetworkManager.Singleton.StartHost(); 
+                PlayerCount.Value++;
+                Debug.Log(PlayerCount.Value);
+                }
+            if (GUILayout.Button("Client")) {
+                NetworkManager.Singleton.StartClient();
+                PlayerCount.Value++;
+                Debug.Log(PlayerCount.Value);
+            }
             if (GUILayout.Button("Server")) NetworkManager.Singleton.StartServer();
         }
 

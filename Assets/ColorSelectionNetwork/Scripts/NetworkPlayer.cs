@@ -17,6 +17,10 @@ public class NetworkPlayer : NetworkBehaviour
             }
         }
 
+        public void OnPlayerDisconnected(NetworkPlayer player) {
+            ColorNetworkManager.PlayerCount.Value--;
+        }
+
         public void SetInitialPosition()
         {
             SubmitInitialPositionRequestServerRpc();
