@@ -3,13 +3,16 @@ using UnityEngine;
 
 public class NetworkPlayer : NetworkBehaviour
 {
-    public NetworkVariable<Vector3> Position = new NetworkVariable<Vector3>(); //Network position for each HelloWorldPlayer
-    public NetworkVariable<Material> Material = new NetworkVariable<Material>(); //Network Material for each HelloWorldPlayer
+    public NetworkVariable<Vector3> Position = new NetworkVariable<Vector3>(); //Network position for each NetworkPlayer
+    private NetworkVariable<int> MaterialIndex = new NetworkVariable<int>(); //Network Material Index for each NetworkPlayer
+    public Material[] colorMaterials;
+    private MeshRenderer meshRenderer;
 
         public override void OnNetworkSpawn()
         {
             if (IsOwner) //Checks for client's gameObject
             {
+                meshRenderer = GetComponent<MeshRenderer>();
                 SetInitialPosition();
             }
         }
@@ -34,10 +37,12 @@ public class NetworkPlayer : NetworkBehaviour
         [Rpc(SendTo.Server)]
         void SubmitColorRequestServerRpc(RpcParams rpcParams = default)
         {
-            var materialColor = GetRandomColor();
-            
-            GetComponent<Material>().color = materialColor;
-            Material.Value = GetComponent<Material>(); //Asigns network position for client's player gameObject
+            int randomIndex = Random.Range(0,colorMaterials.Length);
+            while(randomIndex == MaterialIndex.Value){
+                randomIndex = Random.Range(0,colorMaterials.Length);
+            }
+            MaterialIndex.Value = randomIndex; //Asigns network color index for client's player meshRenderer
+            meshRenderer.material = colorMaterials[MaterialIndex.Value];
         }
 
         static Vector3 GetRandomPositionOnPlane()
@@ -45,14 +50,10 @@ public class NetworkPlayer : NetworkBehaviour
             return new Vector3(Random.Range(-3f, 3f), 1f, Random.Range(-3f, 3f));
         }
 
-        static Color GetRandomColor()
-        {
-            return new Color( Random.value, Random.value, Random.value, 1.0f );
-        }
-
         void Update()
         {
             transform.position = Position.Value;
+            GetComponent<MeshRenderer>().material =  colorMaterials[MaterialIndex.Value];
         }
     }
 

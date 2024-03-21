@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 1718322038510158410}
   - component: {fileID: 5595924400644977077}
   - component: {fileID: 7220269313528446534}
+  - component: {fileID: -374272282945790917}
   m_Layer: 0
-  m_Name: Player
+  m_Name: ColorPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a68f205ec11bd944598b840fa59ef49f, type: 2}
+  - {fileID: 2100000, guid: ecf205624ea193f498f17168413f06f7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,8 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2027219747
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2349669373
+  InScenePlacedSourceGlobalObjectIdHash: 2027219747
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -129,3 +130,24 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-374272282945790917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6230259555144811366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc0b40e89ef0daa428517e016cf58ccb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Position:
+    m_InternalValue: {x: 0, y: 0, z: 0}
+  colorMaterials:
+  - {fileID: 2100000, guid: 8df4a7545a0f5f841b885d2cb7d53898, type: 2}
+  - {fileID: 2100000, guid: a193a91d60724e2439e6e097e9c07441, type: 2}
+  - {fileID: 2100000, guid: 37f1ea0ee81153142a9c6222d73d4fea, type: 2}
+  - {fileID: 2100000, guid: 1626a8b67c9836a4caa8f396a8c44802, type: 2}
+  - {fileID: 2100000, guid: b3a62b25a3acaed4c8b058af785002a7, type: 2}
+  - {fileID: 2100000, guid: f8b1b671f461eee4cb44db5a569db2aa, type: 2}

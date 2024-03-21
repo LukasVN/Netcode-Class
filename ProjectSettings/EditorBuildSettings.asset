@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/TestNetwork/Scenes/TestNetworkScene.unity
     guid: 95126f1cd1433b447874ed0149cb36cf
+  - enabled: 1
+    path: Assets/ColorSelectionNetwork/Scenes/ColorSelectionNetwork.unity
+    guid: 5d47a72a8fa5f9542a20ca3bab3c54c1
   m_configObjects: {}
