@@ -1,9 +1,17 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
 public class ColorNetworkManager : MonoBehaviour
 {
-    public static NetworkVariable<int> PlayerCount = new NetworkVariable<int>(0);
+    void Start(){
+        NetworkManager.Singleton.NetworkConfig.ConnectionApproval = true;
+        NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
+        // NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
+        // NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
+    }
+
+
     void OnGUI()
         {
             GUILayout.BeginArea(new Rect(10, 10, 300, 300));
@@ -25,13 +33,9 @@ public class ColorNetworkManager : MonoBehaviour
         {
             if (GUILayout.Button("Host")) {
                 NetworkManager.Singleton.StartHost(); 
-                PlayerCount.Value++;
-                Debug.Log(PlayerCount.Value);
                 }
             if (GUILayout.Button("Client")) {
                 NetworkManager.Singleton.StartClient();
-                PlayerCount.Value++;
-                Debug.Log(PlayerCount.Value);
             }
             if (GUILayout.Button("Server")) NetworkManager.Singleton.StartServer();
         }
@@ -44,8 +48,9 @@ public class ColorNetworkManager : MonoBehaviour
             GUILayout.Label("Transport: " +
                 NetworkManager.Singleton.NetworkConfig.NetworkTransport.GetType().Name);
             GUILayout.Label("Mode: " + mode);
+            GUILayout.Label("Players: " + NetworkManager.Singleton.ConnectedClientsIds.Count);
         }
-
+    
 
         static void SubmitNewPosition()
         {
@@ -68,6 +73,30 @@ public class ColorNetworkManager : MonoBehaviour
             }
 
         }
+
+    void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response){
+        if(NetworkManager.Singleton.ConnectedClientsIds.Count < 2){
+            response.Approved = true;
+        }
+        else{
+            response.Approved = false;
+        }
+        response.CreatePlayerObject = true;
+
+    }
+
+    // void OnClientConnectedCallback(ulong clientId)
+    // {
+    //     var instance = Instantiate(myPrefab);
+    //     var instanceNetworkObject = instance.GetComponent<NetworkObject>();
+    //     instanceNetworkObject.Spawn();
+    // }
+
+    // void OnClientDisconnectCallback(ulong clientId)
+    // {
+        
+
+    // }
 
 }
 

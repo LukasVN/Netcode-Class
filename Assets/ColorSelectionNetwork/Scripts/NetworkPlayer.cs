@@ -10,15 +10,14 @@ public class NetworkPlayer : NetworkBehaviour
 
         public override void OnNetworkSpawn()
         {
+            meshRenderer = GetComponent<MeshRenderer>();
+
             if (IsOwner) //Checks for client's gameObject
             {
-                meshRenderer = GetComponent<MeshRenderer>();
                 SetInitialPosition();
+                SetRandomColor();
             }
-        }
-
-        public void OnPlayerDisconnected(NetworkPlayer player) {
-            ColorNetworkManager.PlayerCount.Value--;
+            
         }
 
         public void SetInitialPosition()
