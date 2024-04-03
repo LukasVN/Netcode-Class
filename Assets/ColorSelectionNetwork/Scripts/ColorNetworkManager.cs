@@ -48,7 +48,7 @@ public class ColorNetworkManager : MonoBehaviour
             GUILayout.Label("Transport: " +
                 NetworkManager.Singleton.NetworkConfig.NetworkTransport.GetType().Name);
             GUILayout.Label("Mode: " + mode);
-            GUILayout.Label("Players: " + NetworkManager.Singleton.ConnectedClientsIds.Count);
+            GUILayout.Label("Players: " + NetworkManager.Singleton.ConnectedClientsIds.Count + " / 6");
         }
     
 
@@ -75,7 +75,7 @@ public class ColorNetworkManager : MonoBehaviour
         }
 
     void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response){
-        if(NetworkManager.Singleton.ConnectedClientsIds.Count < 2){
+        if(NetworkManager.Singleton.ConnectedClientsIds.Count < 6){
             response.Approved = true;
         }
         else{
