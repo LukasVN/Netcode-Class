@@ -5,8 +5,9 @@ using UnityEngine;
 public class NetworkPlayer : NetworkBehaviour
 {
     public NetworkVariable<Vector3> Position = new NetworkVariable<Vector3>(); //Network position for each NetworkPlayer
-    private NetworkVariable<int> MaterialIndex = new NetworkVariable<int>(); //Network Material Index for each NetworkPlayer
+    private NetworkVariable<int> MaterialIndex = new NetworkVariable<int>(-1); //Network Material Index for each NetworkPlayer
     private static List<int> MaterialIndexList = new List<int>(); //Material Index List for each NetworkPlayer
+    private int randomIndex;
     public Material[] colorMaterials;
     private MeshRenderer meshRenderer;
 
@@ -45,13 +46,14 @@ public class NetworkPlayer : NetworkBehaviour
             if(MaterialIndexList.Count == 6){
                 return;
             }
-            
-            int randomIndex = Random.Range(0,colorMaterials.Length);
-            while(randomIndex == MaterialIndex.Value){
-                if(MaterialIndexList.Contains(randomIndex)){
-                    continue;
-                }
+            if(MaterialIndexList.Contains(MaterialIndex.Value)){
+                MaterialIndexList.Remove(MaterialIndex.Value);
+            }
+
+            randomIndex = Random.Range(0,colorMaterials.Length);
+            while(randomIndex == MaterialIndex.Value || MaterialIndexList.Contains(randomIndex)){
                 randomIndex = Random.Range(0,colorMaterials.Length);
+
             }
             MaterialIndex.Value = randomIndex; //Asigns network color index for client's player meshRenderer
             MaterialIndexList.Add(randomIndex);
@@ -66,7 +68,9 @@ public class NetworkPlayer : NetworkBehaviour
         void Update()
         {
             transform.position = Position.Value;
-            GetComponent<MeshRenderer>().material =  colorMaterials[MaterialIndex.Value];
+            if(MaterialIndex.Value != -1){
+                GetComponent<MeshRenderer>().material =  colorMaterials[MaterialIndex.Value];
+            }
             
         }
 }
