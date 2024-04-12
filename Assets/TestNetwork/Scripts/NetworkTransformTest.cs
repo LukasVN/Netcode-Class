@@ -8,8 +8,20 @@ public class NetworkTransformTest : NetworkBehaviour
     {
         if (IsServer)
         {
-            float theta = Time.frameCount / 10.0f;
-            transform.position = new Vector3((float) Math.Cos(theta), 0.0f, (float) Math.Sin(theta));
+            
+        }
+
+        void Move(){
+            float moveX = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
+            float moveZ = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
+
+            Vector3 newPosition = transform.position + new Vector3(moveX,0,moveZ);
+            
+        }
+
+        [ServerRpc]
+        void SubmitPositionRequestServerRpc(Vector3 newPosition){
+            SubmitPositionRequestServerRpc();
         }
     }
 }
